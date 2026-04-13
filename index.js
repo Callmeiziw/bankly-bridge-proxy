@@ -19,6 +19,16 @@ app.get('/myip', async (req, res) => {
   res.json(r.data);
 });
 
+// Callback Bridge → redirige vers le deep link de l'app
+app.get('/bridge-callback', (req, res) => {
+  const params = new URLSearchParams(req.query).toString();
+  const deepLink = `bankup://bridge-callback${params ? '?' + params : ''}`;
+  res.send(`<!DOCTYPE html><html><head>
+    <meta http-equiv="refresh" content="0;url=${deepLink}">
+    <script>window.location.href="${deepLink}";</script>
+  </head><body>Redirection vers Bankly...</body></html>`);
+});
+
 // Vérification du secret partagé
 app.use((req, res, next) => {
   if (req.headers['x-proxy-secret'] !== PROXY_SECRET) {
