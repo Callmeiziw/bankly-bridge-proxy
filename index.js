@@ -12,6 +12,9 @@ if (!PROXY_SECRET) {
   process.exit(1);
 }
 
+// Route publique pour connaître l'IP sortante du proxy
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
 // Vérification du secret partagé
 app.use((req, res, next) => {
   if (req.headers['x-proxy-secret'] !== PROXY_SECRET) {
