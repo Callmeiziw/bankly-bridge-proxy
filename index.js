@@ -14,6 +14,10 @@ if (!PROXY_SECRET) {
 
 // Route publique pour connaître l'IP sortante du proxy
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/myip', async (req, res) => {
+  const r = await axios.get('https://api.ipify.org?format=json');
+  res.json(r.data);
+});
 
 // Vérification du secret partagé
 app.use((req, res, next) => {
